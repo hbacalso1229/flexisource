@@ -15,3 +15,4 @@ create table `UserActivities` (
 	`Duration` double ,
 	`AveragePace` double 
 ); 
+
