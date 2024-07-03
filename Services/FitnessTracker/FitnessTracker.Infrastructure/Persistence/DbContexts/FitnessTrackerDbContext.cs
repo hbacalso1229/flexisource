@@ -14,14 +14,6 @@ namespace FitnessTracker.Infrastructure.Persistence.DbContexts
 
         public DbSet<UserActivity> Activities { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            //TODO
-            if (!optionsBuilder.IsConfigured)
-            {
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

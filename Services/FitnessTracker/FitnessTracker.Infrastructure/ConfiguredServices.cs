@@ -14,7 +14,6 @@ namespace FitnessTracker.Infrastructure
             //TODO
             string connectionString = configuration["ConnectionString:Mysql"].ToString();
 
-            services.AddScoped<FitnessTrackerDbContext>(provider => provider.GetRequiredService<FitnessTrackerDbContext>());
             services.AddDbContext<FitnessTrackerDbContext>(options =>
             {
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), opt =>
@@ -27,6 +26,7 @@ namespace FitnessTracker.Infrastructure
                 ServiceLifetime.Scoped
             );
 
+            services.AddScoped<IFitnessTrackerDbContext>(provider => provider.GetRequiredService<FitnessTrackerDbContext>());
             services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<FitnessTrackerDbContext>());           
             services.AddScoped<IFitnessTrackerRepository, FitnessTrackerRepository>();
 

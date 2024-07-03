@@ -1,3 +1,6 @@
+using FitnessTracker.API;
+using FitnessTracker.Application;
+using FitnessTracker.Infrastructure;
 using FluentValidation.AspNetCore;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -5,12 +8,8 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
-using System.Text.Json.Serialization;
 using System.Text.Json;
-using FitnessTracker.API;
-using FitnessTracker.Application;
-using FitnessTracker.Infrastructure;
-using Microsoft.Extensions.Configuration;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {

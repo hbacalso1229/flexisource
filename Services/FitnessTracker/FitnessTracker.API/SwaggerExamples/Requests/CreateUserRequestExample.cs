@@ -12,8 +12,8 @@ namespace FitnessTracker.API.SwaggerExamples.Requests
                 Name = "Lorem Ipsum Dolor",
                 BirthDate = DateTime.Parse("11/23/2022"),
                 Address = "Makati City",
-                Weight = 4,
-                Height = 5,
+                Weight = 90,
+                Height = 168,
                 EmailAddress = "hbacalso1229@yahoo.com"
             };
         }
