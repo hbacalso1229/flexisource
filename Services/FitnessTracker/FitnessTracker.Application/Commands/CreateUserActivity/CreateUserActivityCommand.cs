@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using FitnessTracker.Application.Common.Interfaces;
 using FitnessTracker.Application.Common.Models;
-using FitnessTracker.Domain.Exceptions;
 using UserActivityEntity = FitnessTracker.Domain.Aggregates.UserAggregates.Entities.UserActivity;
-using UserEntity = FitnessTracker.Domain.Aggregates.UserAggregates.Entities.User;
 
 namespace FitnessTracker.Application.Commands.CreateUserActivity
 {
@@ -26,21 +24,10 @@ namespace FitnessTracker.Application.Commands.CreateUserActivity
         }
 
         public async Task<Guid> Handle(CreateUserActivityCommand request, CancellationToken cancellationToken)
-        {
-            UserEntity user = await _repository.FindAsync(e => e.Id == request.UserId, cancellationToken: cancellationToken);
+        {        
+            IList<UserActivityEntity> userActivities = _mapper.Map<List<UserActivityEntity>>(request.UserActivities);              
 
-            if (user is UserEntity)
-            {
-                IList<UserActivityEntity> userActivities = _mapper.Map<List<UserActivityEntity>>(request.UserActivities);
-
-                user.AddActivities(request.UserId, userActivities.ToList());
-
-                await _repository.AddUserActivityAsync(user, cancellationToken);
-            }
-            else
-            {
-                throw new UserNotFoundException(request.UserId);
-            }            
+            await _repository.AddUserActivityAsync(request.UserId, userActivities, cancellationToken);                  
 
             return request.UserId;
         }

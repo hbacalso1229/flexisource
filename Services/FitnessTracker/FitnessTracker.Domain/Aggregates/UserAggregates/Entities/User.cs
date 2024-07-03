@@ -92,27 +92,30 @@ namespace FitnessTracker.Domain.Aggregates.UserAggregates.Entities
             this.BMI = this.Weight / ((this.Height / 100) * (this.Height / 100));
         }
 
-        public void AddActivities(Guid userId, IList<UserActivity> userActivities)
+        public void AddActivity(Guid userId, UserActivity userActivity)
         {
-            foreach (var activity in userActivities) 
+            UserActivity userActivityEntity = _userActivities.AsQueryable()
+                .Where(x => x.Id == userActivity.Id && x.UserId == userId)
+                .FirstOrDefault();            
+
+            if (userActivityEntity is UserActivity)
             {
-                UserActivity userActivityEntity = _userActivities.AsQueryable()
-                    .Where(x => x.Id == activity.Id && x.Id == userId)
-                    .FirstOrDefault();
-
-                if (userActivityEntity is UserActivity)
-                {
-                    userActivityEntity.UpdateUserActivity(activity);
-                }
-                else
-                {
-                    userActivityEntity = new UserActivity(userId, activity);
-                    userActivityEntity.CalculateDuration();
-                    userActivityEntity.CalculateAveragePace();
-
-                    _userActivities.Add(userActivityEntity);
-                }
+                //TODO
             }
+            else
+            {
+                userActivityEntity = new UserActivity(userId, userActivity);
+                userActivityEntity.CalculateDuration();
+                userActivityEntity.CalculateAveragePace();
+
+                _userActivities.Add(userActivityEntity);
+            }                      
+        }
+
+        //TODO:
+        public void UpdateUser()
+        {
+            LastModified = DateTime.UtcNow;
         }
     }
 }

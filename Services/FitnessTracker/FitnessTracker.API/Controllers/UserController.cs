@@ -54,7 +54,7 @@ namespace FitnessTracker.API.Controllers
         [HttpPost("users/{userId}/activities")]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<Guid>> AddUserActivity(Guid userId, [FromBody] CreateUserActivityCommand command, CancellationToken cancellationToken)
+        public async Task<ActionResult> AddUserActivity(Guid userId, [FromBody] CreateUserActivityCommand command, CancellationToken cancellationToken)
         {
             if (userId != command.UserId)
             {
