@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using UserEntity = FitnessTracker.Domain.Aggregates.UserAggregates.Entities.User;
 using UserActivityEntity = FitnessTracker.Domain.Aggregates.UserAggregates.Entities.UserActivity;
+using FitnessTracker.Domain.Aggregates.UserAggregates.Entities;
 
 namespace Fitness.Infrastructure.Persistence.Repositories
 {
@@ -19,19 +20,18 @@ namespace Fitness.Infrastructure.Persistence.Repositories
         {
             UserEntity entity = await Context.Users.AsQueryable()
                 .Where(x => x.Id == userId)
-                .Include(x => x.Activities)
                 .FirstOrDefaultAsync(cancellationToken);
 
             if (entity is UserEntity)
             {
-                entity.UpdateUser();
+                entity.SetLastModified();
 
                 userActivities.ToList().ForEach(activity =>
                 {
                     entity.AddActivity(entity.Id, activity);
                 });
-
-                await UnitOfWork.SaveEntitiesAsync(cancellationToken);
+                
+                await UnitOfWork.SaveChangesAsync(cancellationToken);
             }
             else
             {
@@ -41,7 +41,7 @@ namespace Fitness.Infrastructure.Persistence.Repositories
             return entity;
 
         }
-
+                
         public async Task<UserEntity> GetUserActivityAsync(Guid userId, CancellationToken cancellationToken)
         {
             UserEntity entity = await Context.Users.AsQueryable()

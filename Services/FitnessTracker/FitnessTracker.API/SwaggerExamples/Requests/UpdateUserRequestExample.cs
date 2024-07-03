@@ -1,15 +1,17 @@
 ﻿using FitnessTracker.Application.Commands.CreateUser;
+using FitnessTracker.Application.Commands.UpdateUser;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace FitnessTracker.API.SwaggerExamples.Requests
 {
-    public class CreateUserRequestExample : IExamplesProvider<CreateUserCommand>
+    public class UpdateUserRequestExample : IExamplesProvider<UpdateUserCommand>
     {
-        public CreateUserCommand GetExamples()
+        public UpdateUserCommand GetExamples()
         {
-            return new CreateUserCommand
+            return new UpdateUserCommand
             {
-                Name = "Lorem Ipsum Dolor",
+                UserId = new Guid("08dc9b58-abff-482d-8eb3-e51d05e8b0b7"),
+                Name = "Lorem Ipsum",
                 BirthDate = DateTime.Parse("11/23/2022"),
                 Address = "Makati City",
                 Weight = 90,

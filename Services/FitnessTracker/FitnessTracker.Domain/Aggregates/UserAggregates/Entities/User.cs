@@ -11,11 +11,11 @@ namespace FitnessTracker.Domain.Aggregates.UserAggregates.Entities
         }
 
         public User(string name,
-            decimal height,
-            decimal weight,
+            double height,
+            double weight,
             DateTime birthDate,
             short age,
-            decimal bmi,
+            double bmi,
             string emailAddress,
             string address)
         {
@@ -41,12 +41,12 @@ namespace FitnessTracker.Domain.Aggregates.UserAggregates.Entities
         /// <summary>
         /// Height (cm)
         /// </summary>        
-        public decimal Height { get; private set; }
+        public double Height { get; private set; }
 
         /// <summary>
         /// Weight (kg)
         /// </summary>
-        public decimal Weight { get; private set; }
+        public double Weight { get; private set; }
 
         /// <summary>
         /// Birth Date
@@ -62,7 +62,7 @@ namespace FitnessTracker.Domain.Aggregates.UserAggregates.Entities
         /// <summary>
         /// Body Mass Index
         /// </summary>
-        public decimal BMI { get; private set; }
+        public double BMI { get; private set; }
 
         /// <summary>
         /// Email Address
@@ -89,7 +89,7 @@ namespace FitnessTracker.Domain.Aggregates.UserAggregates.Entities
 
         public void CalculateBodyMassIndex()
         {
-            this.BMI = this.Weight / ((this.Height / 100) * (this.Height / 100));
+            this.BMI = Math.Round(this.Weight / ((this.Height / 100) * (this.Height / 100)), 2);
         }
 
         public void AddActivity(Guid userId, UserActivity userActivity)
@@ -113,9 +113,27 @@ namespace FitnessTracker.Domain.Aggregates.UserAggregates.Entities
         }
 
         //TODO:
-        public void UpdateUser()
+        public void SetLastModified()
         {
             LastModified = DateTime.UtcNow;
+        }
+
+        public void Update(string name,
+            double height,
+            double weight,
+            DateTime birthDate,
+            string emailAddress,
+            string address)
+        {
+            this.Name = name;
+            this.Height = height;
+            this.Weight = weight;
+            this.BirthDate = birthDate;
+            this.EmailAddress = emailAddress;
+            this.Address = address;
+            this.CalculateAge();
+            this.CalculateBodyMassIndex();
+            this.SetLastModified();
         }
     }
 }

@@ -1,9 +1,11 @@
-﻿using FitnessTracker.API.SwaggerExamples.Responses;
+﻿using FitnessTracker.Application.Commands.CreateUserActivity;
+using FitnessTracker.API.SwaggerExamples.Responses;
 using FitnessTracker.Application.Commands.CreateUser;
-using FitnessTracker.Application.Commands.CreateUserActivity;
 using FitnessTracker.Application.Common.Models;
 using FitnessTracker.Application.Queries;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using FitnessTracker.Application.Commands.UpdateUser;
 
 namespace FitnessTracker.API.Controllers
 {
@@ -17,7 +19,7 @@ namespace FitnessTracker.API.Controllers
         private readonly ILogger<UserController> _logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TechnicianController"/> class.
+        /// Initializes a new instance of the <see cref="UserController"/> class.
         /// </summary>
         /// <param name="logger"></param>
         public UserController(ILogger<UserController> logger)
@@ -45,16 +47,16 @@ namespace FitnessTracker.API.Controllers
         }
 
         /// <summary>
-        /// Add user activity
+        /// Updates user profile
         /// </summary>
         /// <param name="userId">A user id</param>
-        /// <param name="command">A user activity request</param>
+        /// <param name="command">A user profile request</param>
         /// <param name="cancellationToken">A cancellation token</param>
-        /// <returns>Added user activity</returns>
-        [HttpPost("users/{userId}/activities")]
+        /// <returns>Updated user profile</returns>
+        [HttpPut("users/{userId}")]
         [MapToApiVersion("1.0")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult> AddUserActivity(Guid userId, [FromBody] CreateUserActivityCommand command, CancellationToken cancellationToken)
+        public async Task<ActionResult>UpdateUser([FromRoute][Required()] Guid userId, [FromBody] UpdateUserCommand command, CancellationToken cancellationToken)
         {
             if (userId != command.UserId)
             {
@@ -64,6 +66,28 @@ namespace FitnessTracker.API.Controllers
             await Mediator.Send(command, cancellationToken);
 
             return NoContent();
+        }
+
+        /// <summary>
+        /// Add user activity
+        /// </summary>
+        /// <param name="userId">A user id</param>
+        /// <param name="command">A user activity request</param>
+        /// <param name="cancellationToken">A cancellation token</param>
+        /// <returns>Added user activity</returns>
+        [HttpPost("users/{userId}/activities")]
+        [MapToApiVersion("1.0")]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+        public async Task<ActionResult<Guid>> AddUserActivity([FromRoute][Required()] Guid userId, [FromBody] CreateUserActivityCommand command, CancellationToken cancellationToken)
+        {
+            if (userId != command.UserId)
+            {
+                return BadRequest($"The user id '{userId.ToString()}' route path value does not match the request payload '{command.UserId}'.");
+            }
+
+            Guid response = await Mediator.Send(command, cancellationToken);
+
+            return CreatedAtAction(nameof(AddUserActivity), new { response }, response);
         }
 
         /// <summary>

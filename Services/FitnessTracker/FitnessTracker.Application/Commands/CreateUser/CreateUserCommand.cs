@@ -5,7 +5,7 @@ using UserEntity = FitnessTracker.Domain.Aggregates.UserAggregates.Entities.User
 
 namespace FitnessTracker.Application.Commands.CreateUser
 {
-    public class CreateUserCommand : CreateUserRequest, ICommand<Guid>
+    public class CreateUserCommand : UserRequestDto, ICommand<Guid>
     {
     }
 

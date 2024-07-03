@@ -21,7 +21,7 @@ namespace FitnessTracker.Infrastructure
                     opt.MigrationsAssembly(typeof(FitnessTrackerDbContext).Assembly.FullName);
                     opt.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
                 });
-                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                //options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             },
                 ServiceLifetime.Scoped
             );

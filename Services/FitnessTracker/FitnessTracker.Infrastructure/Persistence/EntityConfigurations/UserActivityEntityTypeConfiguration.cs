@@ -8,11 +8,13 @@ namespace FitnessTracker.Infrastructure.Persistence.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<UserActivity> builder)
         {
-            builder.HasKey(e => new { e.Id });
-            builder.HasIndex(e => new { e.Id, e.UserId }).IsUnique();
+            builder.ToTable(nameof(UserActivity));
+
+            builder.HasKey(e => new { e.Id, e.UserId });
 
             builder.Property(e => e.Location)
-                .HasDefaultValue(String.Empty)
+                .HasColumnType("varchar")
+                .HasMaxLength(150)
                 .IsRequired();
 
             builder.Property(e => e.TimeStarted)

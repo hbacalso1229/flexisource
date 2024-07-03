@@ -13,8 +13,8 @@ namespace FitnessTracker.Infrastructure.Persistence.EntityConfigurations
             builder.HasKey(e => new { e.Id });
 
             builder.Property(e => e.Name)
+               .HasColumnType("varchar")
                .HasMaxLength(50)
-               .HasDefaultValue(String.Empty)
                .IsRequired();
 
             builder.Property(e => e.Height)
@@ -28,13 +28,17 @@ namespace FitnessTracker.Infrastructure.Persistence.EntityConfigurations
 
             builder.Property(e => e.Age);
             builder.Property(e => e.BMI);
-            builder.Property(e => e.EmailAddress);
-            builder.Property(e => e.Address);
+            builder.Property(e => e.EmailAddress)
+                .HasColumnType("varchar")
+                .HasMaxLength(150);
+            builder.Property(e => e.Address)
+                .HasColumnType("varchar")
+                .HasMaxLength(150);
 
             builder.HasMany(e => e.Activities)
                 .WithOne()
                 .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.Cascade); 
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

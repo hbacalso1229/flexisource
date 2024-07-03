@@ -24,10 +24,10 @@ namespace FitnessTracker.Application.Commands.CreateUserActivity
         }
 
         public async Task<Guid> Handle(CreateUserActivityCommand request, CancellationToken cancellationToken)
-        {        
-            IList<UserActivityEntity> userActivities = _mapper.Map<List<UserActivityEntity>>(request.UserActivities);              
+        {   
+            IList<UserActivityEntity> userActivities = _mapper.Map<List<UserActivityEntity>>(request.UserActivities);
 
-            await _repository.AddUserActivityAsync(request.UserId, userActivities, cancellationToken);                  
+            await _repository.AddUserActivityAsync(request.UserId, userActivities, cancellationToken);
 
             return request.UserId;
         }

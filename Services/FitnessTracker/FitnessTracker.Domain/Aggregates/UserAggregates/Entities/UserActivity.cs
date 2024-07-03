@@ -40,12 +40,14 @@ namespace FitnessTracker.Domain.Aggregates.UserAggregates.Entities
 
         public void CalculateDuration()
         {
-            this.Duration = (TimeStarted - TimeEnded).TotalHours;
+            TimeSpan timeSpan = TimeStarted - TimeEnded;
+            
+            this.Duration = timeSpan.TotalHours;
         }
 
         public void CalculateAveragePace()
         {
-            this.AveragePace = (this.Duration / this.Distance);
+            this.AveragePace = Math.Round((this.Duration / this.Distance), 2);
         }
     }
 }
