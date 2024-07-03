@@ -12,7 +12,7 @@ namespace FitnessTracker.Infrastructure.Persistence.DbContexts
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<UserActivity> Activities { get; set; }
+        public DbSet<UserActivity> UserActivities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

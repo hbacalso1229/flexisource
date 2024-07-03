@@ -33,7 +33,7 @@ namespace FitnessTracker.Application.Queries
         {
             UserActivityResponse response = new UserActivityResponse();
 
-            //TODO: Use Dapper instead of EF
+            //TODO: Use Dapper instead of EF for better performance of huge data retrieval
             UserEntity user = await _repository.GetUserActivityAsync(request.UserId, cancellationToken);
 
             if(user is UserEntity)

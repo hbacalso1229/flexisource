@@ -23,7 +23,7 @@ namespace Fitness.Infrastructure.Persistence.Repositories
 
             if (entity is UserEntity)
             {                
-                entity.AddActivities(user.Activities.ToList());                
+                entity.AddActivities(entity.Id, user.Activities.ToList());                
 
                 await UnitOfWork.SaveEntitiesAsync(cancellationToken);
             }

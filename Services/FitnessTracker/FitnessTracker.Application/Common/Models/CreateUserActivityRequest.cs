@@ -42,7 +42,10 @@ namespace FitnessTracker.Application.Common.Models
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CreateUserActivityDto, UserActivityEntity>();
+            profile.CreateMap<CreateUserActivityDto, UserActivityEntity>()                    
+                .ForMember(x => x.TimeEnded, opt => opt.MapFrom(x => x.DateEnded))
+                .ForMember(x => x.TimeStarted, opt => opt.MapFrom(x => x.DateStarted));
+
             profile.CreateMap<string, string>().ConvertUsing(x => x ?? String.Empty);
         }
     }

@@ -92,12 +92,12 @@ namespace FitnessTracker.Domain.Aggregates.UserAggregates.Entities
             this.BMI = this.Weight / ((this.Height / 100) * (this.Height / 100));
         }
 
-        public void AddActivities(IList<UserActivity> userActivities)
+        public void AddActivities(Guid userId, IList<UserActivity> userActivities)
         {
             foreach (var activity in userActivities) 
             {
                 UserActivity userActivityEntity = _userActivities.AsQueryable()
-                    .Where(x => x.Id == activity.Id && x.Id == activity.UserId)
+                    .Where(x => x.Id == activity.Id && x.Id == userId)
                     .FirstOrDefault();
 
                 if (userActivityEntity is UserActivity)
@@ -106,7 +106,9 @@ namespace FitnessTracker.Domain.Aggregates.UserAggregates.Entities
                 }
                 else
                 {
-                    userActivityEntity = new UserActivity(activity.UserId, activity);
+                    userActivityEntity = new UserActivity(userId, activity);
+                    userActivityEntity.CalculateDuration();
+                    userActivityEntity.CalculateAveragePace();
 
                     _userActivities.Add(userActivityEntity);
                 }

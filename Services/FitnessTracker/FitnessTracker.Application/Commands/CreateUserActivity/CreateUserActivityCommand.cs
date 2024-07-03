@@ -33,7 +33,7 @@ namespace FitnessTracker.Application.Commands.CreateUserActivity
             {
                 IList<UserActivityEntity> userActivities = _mapper.Map<List<UserActivityEntity>>(request.UserActivities);
 
-                user.AddActivities(userActivities.ToList());
+                user.AddActivities(request.UserId, userActivities.ToList());
 
                 await _repository.AddUserActivityAsync(user, cancellationToken);
             }

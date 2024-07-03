@@ -10,7 +10,13 @@ namespace FitnessTracker.Domain.Aggregates.UserAggregates.Entities
         {
             Id = id == Guid.Empty ? Guid.NewGuid() : id;
 
-            UserId = userId;           
+            UserId = userId;
+            Location = userActivity.Location;
+            TimeStarted = userActivity.TimeStarted;
+            TimeEnded = userActivity.TimeEnded;
+            Duration = userActivity.Duration;
+            Distance = userActivity.Distance;
+            AveragePace = userActivity.AveragePace;
         }
 
         public Guid UserId { get; private set; }
